@@ -4,7 +4,7 @@
         "id": 1,
         "createdAt": "2022-02-02T15:00:00Z",
         "total": {
-            "amount": "3000",
+            "amount": 3000,
             "currency": "USD"
         },
         "customer": {

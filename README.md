@@ -13,3 +13,7 @@ run `yarn dev`
 # See project online
 
 Click [here](https://puppo.github.io/Keep-alive-your-typescript-definitions-using-Zod/)
+
+# Slides
+
+Click [here](https://speakerdeck.com/puppo/keep-alive-your-typescript-definitions-using-zod)
