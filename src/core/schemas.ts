@@ -1,16 +1,5 @@
 import { z } from 'zod';
 
-const isoDateString = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/);
-
-export const IsoDateSchema = z.preprocess(<K>(args: K): Date | undefined => {
-  if (args instanceof Date) return args;
-  const parseResult = isoDateString.safeParse(args);
-  if (parseResult.success) return new Date(parseResult.data);
-  return undefined;
-}, z.date());
-
 export const CustomerSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -19,13 +8,13 @@ export const CustomerSchema = z.object({
 });
 
 export const ShippingSchema = z.object({
-  date: IsoDateSchema,
+  date: z.coerce.date(),
   trackingNumber: z.string(),
   company: z.string(),
 });
 
 export const DeliverySchema = z.object({
-  date: IsoDateSchema,
+  date: z.coerce.date(),
   signedBy: z.string(),
 });
 
@@ -37,7 +26,7 @@ export const CurrencySchema = z.object({
 export const DraftOrderSchema = z.object({
   type: z.literal('draft'),
   id: z.number(),
-  createdAt: IsoDateSchema,
+  createdAt: z.coerce.date(),
   customer: CustomerSchema,
   total: CurrencySchema,
 });
@@ -45,18 +34,18 @@ export const DraftOrderSchema = z.object({
 export const InProgressOrderSchema = z.object({
   type: z.literal('progress'),
   id: z.number(),
-  createdAt: IsoDateSchema,
+  createdAt: z.coerce.date(),
   customer: CustomerSchema,
-  date: IsoDateSchema,
+  date: z.coerce.date(),
   total: CurrencySchema,
 });
 
 export const ShipOrderSchema = z.object({
   type: z.literal('ship'),
   id: z.number(),
-  createdAt: IsoDateSchema,
+  createdAt: z.coerce.date(),
   customer: CustomerSchema,
-  date: IsoDateSchema,
+  date: z.coerce.date(),
   total: CurrencySchema,
   ship: ShippingSchema,
 });
@@ -64,8 +53,8 @@ export const ShipOrderSchema = z.object({
 export const DeliveryOrderSchema = z.object({
   type: z.literal('delivery'),
   id: z.number(),
-  createdAt: IsoDateSchema,
-  date: IsoDateSchema,
+  createdAt: z.coerce.date(),
+  date: z.coerce.date(),
   customer: CustomerSchema,
   total: CurrencySchema,
   ship: ShippingSchema,

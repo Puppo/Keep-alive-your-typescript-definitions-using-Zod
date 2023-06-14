@@ -1,17 +1,19 @@
 import { ReactElement } from 'react';
-import type { OrderModel } from '../../core';
+import { z } from 'zod'
 import DeliveryOrder from './DeliveryOrder';
 import DraftOrder from './DraftOrder';
 import InProgressOrder from './InProgressOrder';
 import ShipOrder from './ShipOrder';
+import { OrderSchema } from '../../core/schemas';
+import { withZodValidation } from '../../utils';
 
-type OrderProps = {
-    order: OrderModel,
-    onView: (order: OrderModel) => void,
-    onDelete: (order: OrderModel) => void
-}
+const OrderPropsSchema = z.object({
+    order: OrderSchema,
+    onView: z.function().args(OrderSchema).returns(z.void()),
+    onDelete: z.function().args(OrderSchema).returns(z.void()),
+})
 
-export default function Order({ order, onView, onDelete }: OrderProps): ReactElement | null {
+function Order({ order, onView, onDelete }: z.infer<typeof OrderPropsSchema>): ReactElement | null {
     switch (order.type) {
         case 'draft':
             return <DraftOrder onView={onView} onDelete={onDelete} order={order} />;
@@ -23,3 +25,5 @@ export default function Order({ order, onView, onDelete }: OrderProps): ReactEle
             return <DeliveryOrder order={order} onView={onView} />;
     }
 }
+
+export default withZodValidation(OrderPropsSchema)(Order)

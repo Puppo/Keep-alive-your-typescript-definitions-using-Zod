@@ -13,6 +13,7 @@
   },
   "rules": {
     // override/add rules settings here, such as:
-    "default-case": "off"
+    "default-case": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

@@ -6,13 +6,10 @@ import {
   DeliverySchema,
   DraftOrderSchema,
   InProgressOrderSchema,
-  IsoDateSchema,
   OrderSchema,
   ShipOrderSchema,
   ShippingSchema,
 } from './schemas';
-
-export type IsoDate = TypeOf<typeof IsoDateSchema>;
 
 export type CustomerModel = TypeOf<typeof CustomerSchema>;
 
